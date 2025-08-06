@@ -4,6 +4,7 @@ namespace Modules\Post\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Post\Models\Post;
 
 class PostController extends Controller
 {
@@ -12,7 +13,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post::index');
+        $posts = Post::latest()->get();
+        return view('post::index', compact('posts'));
     }
 
     /**
@@ -26,7 +28,17 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        Post::create($request->all());
+        return redirect()->route('post.index');
+    }
 
     /**
      * Show the specified resource.

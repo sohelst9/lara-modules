@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Post Page</title>
@@ -18,7 +19,7 @@
             margin: 50px auto;
             background: #fff;
             padding: 40px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
 
@@ -53,28 +54,32 @@
             text-decoration: none;
             border-radius: 5px;
         }
+
         .btn:hover {
             background-color: #0056b3;
         }
-
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <a href="{{ route('post.create') }}" class="btn">Add Post</a>
         <a href="/" class="btn">Go Home</a>
-        <h1>My First Blog Post</h1>
-        <div class="meta">Published on August 6, 2025</div>
-        <div class="content">
-            <p>This is a simple post page created for testing purposes. You can customize this layout based on your needs.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
-        </div>
-        <div class="author">— by Admin</div>
+        @foreach ($posts as $post)
+            <h1>{{ $post->title }}</h1>
+            <div class="meta">{{ $post->created_at->format('F j, Y, g:i A') }}</div>
+            <div class="content">
+                <p>{{ $post->content }}</p>
+            </div>
+            <div class="author">— by {{ $post->user?->name }}</div>
+        @endforeach
+
 
     </div>
 
 
 
 </body>
+
 </html>
