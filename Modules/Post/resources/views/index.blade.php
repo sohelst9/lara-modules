@@ -78,6 +78,25 @@
         .btn:hover {
             background-color: #0056b3;
         }
+
+        .search-form {
+            margin-bottom: 20px;
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        .search-form button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -86,22 +105,42 @@
     <div class="container">
         <a href="{{ route('post.create') }}" class="btn">Add Post</a>
         <a href="/" class="btn">Go Home</a>
-        @foreach ($posts as $post)
-            <h1>{{ $post->title }}</h1>
-            <div class="meta">{{ $post->created_at->format('F j, Y, g:i A') }}</div>
-            <div class="content">
-                <p>{{ $post->content }}</p>
-            </div>
-            <div class="author">— by {{ $post->user?->name }}</div>
-            <a href="" class="editbtn">Edit</a>
-            <a href="{{ route('post.destroy', $post->id) }}" class="deletebtn">Delete</a>
-        @endforeach
+        <div class="search-form">
+            <input type="text" id="search_input" placeholder="Search posts...">
+            <button id="search_btn">Search</button>
+        </div>
+        <div id="postlist">
+            @include('post::postlist', ['posts', $posts])
+        </div>
 
 
     </div>
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function searchForm(){
+            var search = $('#search_input').val();
+            $.ajax({
+                url: '{{ route('post.search') }}',
+                type: 'GET',
+                data: {
+                    search : search
+                },
+                success : function(response){
+                    $('#postlist').html(response)
+                }
+            })
+        }
 
+        $('#search_input').on('keyup', function(){
+            searchForm();
+        })
+
+        $('#search_btn').on('click', function(){
+            searchForm();
+        })
+    </script>
 </body>
 
 </html>
