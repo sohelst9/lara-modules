@@ -5,6 +5,7 @@ namespace Modules\Post\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Post\Models\Post;
+use Modules\Post\Services\PostService;
 
 class SearchPostController extends Controller
 {
@@ -18,5 +19,10 @@ class SearchPostController extends Controller
             ->latest()
             ->get();
         return view('post::postlist', compact('posts'))->render();
+    }
+
+    public function postData(PostService $service)
+    {
+        return $service->fivePostData();
     }
 }
