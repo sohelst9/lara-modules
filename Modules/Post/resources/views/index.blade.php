@@ -55,6 +55,26 @@
             border-radius: 5px;
         }
 
+        .editbtn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 15px;
+            background-color: #29e309;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .deletebtn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 15px;
+            background-color: #e91139;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
         .btn:hover {
             background-color: #0056b3;
         }
@@ -73,6 +93,8 @@
                 <p>{{ $post->content }}</p>
             </div>
             <div class="author">— by {{ $post->user?->name }}</div>
+            <a href="" class="editbtn">Edit</a>
+            <a href="{{ route('post.destroy', $post->id) }}" class="deletebtn">Delete</a>
         @endforeach
 
 
