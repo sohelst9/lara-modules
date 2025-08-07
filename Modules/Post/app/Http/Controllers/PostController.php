@@ -37,7 +37,7 @@ class PostController extends Controller
         ]);
 
         Post::create($request->all());
-        return redirect()->route('post.index');
+        return response()->json(['message' => 'Post created successfully']);
     }
 
     /**

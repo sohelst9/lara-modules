@@ -17,9 +17,13 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Posts List</h4>
+                        <button class="btn btn-primary float-end" data-bs-toggle="modal"
+                            data-bs-target="#createPostModal">Create Post</button>
+
                     </div>
+                    @include('post::modal.create');
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="posts-table">
@@ -43,34 +47,9 @@
 
 
 
-    <!-- Edit Post Modal -->
-    <div class="modal fade" id="editPostModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <form id="editPostForm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Post</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" id="editPostId">
-                        <div class="mb-3">
-                            <label>Title</label>
-                            <input type="text" id="editTitle" name="title" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label>Content</label>
-                            <textarea id="editContent" name="content" class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!--create and Edit Post Modal -->
+
+    @include('post::modal.edit');
 
 
     <!-- Bootstrap 5 JS CDN (optional) -->
@@ -187,6 +166,35 @@
                         }
                     });
                 }
+            });
+
+
+            $('#createPostForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let formData = {
+                    user_id: $('#user_id').val(),
+                    title: $('#createTitle').val(),
+                    content: $('#createContent').val(),
+                    _token: '{{ csrf_token() }}'
+                };
+
+                $.ajax({
+                    url: '{{ route('post.store') }}',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+
+                        alert('Post created successfully!');
+                        $('#createPostForm')[0].reset();
+                        $('#createPostModal').modal('hide');
+                        $('#posts-table').DataTable().ajax.reload(null, false);
+                    },
+                    error: function(xhr) {
+                        alert('Something went wrong');
+                        console.log(xhr.responseText);
+                    }
+                });
             });
 
         });
