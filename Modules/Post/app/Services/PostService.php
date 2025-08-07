@@ -11,9 +11,9 @@ class PostService
        return Post::take(5)->get();
     }
 
-    public function threePostData()
+    public function latestALL()
     {
-       return Post::take(3)->get();
+       return Post::latest()->get();
     }
 
     public function latest10PostData()

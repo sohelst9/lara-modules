@@ -53,13 +53,29 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        return view('post::edit');
+        $post = Post::findOrFail($id);
+        return response()->json($post);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string',
+        ]);
+
+        $post->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return response()->json(['message' => 'Post updated successfully']);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -68,6 +84,6 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->delete();
-        return redirect()->route('post.index');
+        return response()->json(['message' => 'Post deleted successfully']);
     }
 }
