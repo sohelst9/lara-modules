@@ -5,6 +5,7 @@ namespace Modules\Post\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Post\Models\Post;
+use Modules\Post\Services\GlobalService;
 use Modules\Post\Services\PostService;
 
 class PostController extends Controller
@@ -12,8 +13,9 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GlobalService $globalService)
     {
+       return $user = $globalService->userData();
         $posts = Post::latest()->get();
         return view('post::index', compact('posts'));
     }
