@@ -25,4 +25,9 @@ class PostService
     {
        return Post::latest()->take(20)->get();
     }
+
+    public function createPost($data)
+    {
+        return Post::create($data);
+    }
 }

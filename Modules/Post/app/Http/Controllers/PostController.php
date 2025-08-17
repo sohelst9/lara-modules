@@ -5,6 +5,7 @@ namespace Modules\Post\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Post\Models\Post;
+use Modules\Post\Services\PostService;
 
 class PostController extends Controller
 {
@@ -28,7 +29,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostService $service, Request $request)
     {
         $request->validate([
             'user_id' => 'required',
@@ -36,7 +37,8 @@ class PostController extends Controller
             'content' => 'required',
         ]);
 
-        Post::create($request->all());
+        $data = $request->only(['user_id', 'title', 'content']);
+        $service->createPost($data);
         return response()->json(['message' => 'Post created successfully']);
     }
 

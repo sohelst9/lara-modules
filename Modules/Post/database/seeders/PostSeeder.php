@@ -15,7 +15,7 @@ class PostSeeder extends Seeder
     {
         for ($i = 0; $i < 50; $i++) {
             DB::table('posts')->insert([
-                'user_id' => fake()->randomElement([1, 2, 7]),
+                'user_id' => fake()->randomElement([1, 2, 3]),
                 'title' => Str::title(fake()->sentence(rand(3, 6))),
                 'content' => fake()->paragraph(rand(3, 7)),
                 'created_at' => now(),

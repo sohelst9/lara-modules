@@ -9,3 +9,6 @@ Route::get('/posts/search', [SearchPostController::class, 'search'])->name('post
 Route::get('/showposts', [SearchPostController::class, 'showposts']);
 Route::get('/posts/data', [SearchPostController::class, 'postData'])->name('post.data');
 
+
+
+Route::get('/array', [SearchPostController::class, 'array']);

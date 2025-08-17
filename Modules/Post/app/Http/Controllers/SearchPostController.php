@@ -48,11 +48,51 @@ class SearchPostController extends Controller
                 ->addColumn('action', function ($post) {
                     return '
         <button class="btn btn-sm btn-primary editBtn" data-id="' . $post->id . '">Edit</button>
-        <button class="btn btn-sm btn-danger deleteBtn" data-id="'.$post->id.'">Delete</button>
+        <button class="btn btn-sm btn-danger deleteBtn" data-id="' . $post->id . '">Delete</button>
     ';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+
+    public function array()
+    {
+        $a = ['apple', 'banana'];
+        $b = ['mango', 'orange'];
+
+        $result = array_merge($a, $b);
+
+        print_r($result);
+
+
+
+        //--implode array to string
+        $array = [
+            'Laravel',
+            'VueJS',
+            'ReactJS',
+            'Angular',
+            'NodeJS'
+        ];
+        $string = implode(',', $array);
+
+
+
+        //-- json encode convert array to json string
+        $arrayData = [
+            'name' => 'sss',
+            'age' => 20,
+            'city' => 'Dhaka'
+        ];
+        $jsonString = json_encode($arrayData);
+
+        //-- explode string to array
+        $string = 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z';
+        $array = explode(',', $string);
+        return response()->json([
+            'array' => $array,
+            'jsonString' => $jsonString,
+        ]);
     }
 }
